@@ -38,7 +38,7 @@ IcedCoffee = 4
 count = 0
 if menu == "1":
     count = count + 1
-    Quantity = input(f"How many {1.}'s would you like? ")
+    Quantity = input(f"How many {1}'s would you like? ")
     print(f"Cappuccino * {Quantity}")
     while count < 4:
         Order_Again = input("\nWould you like anything else? (Y/N): ")
