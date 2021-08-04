@@ -31,50 +31,16 @@ item = input("\nWhat would you like to order from our menu today? (1-4):"
              "\n•(3) Latte         [$2.50]\n•(4) Iced Coffee   [$2.50]\n")
 
 count = 0
-
-if item == "1":
+while count < 4:
+    print(f"You have selected a {menu[int(item)-1]}")
     count = count + 1
-    Quantity = input("How many would you like? ")
-    print(f"Cappuccino * {Quantity}")
-    while count < 4:
-        Order_Again = input("\nWould you like anything else? (Y/N): ")
+    Quantity = input(f"How many {menu[int(item)-1]}'s would you like? ")
+    print(f"{menu[int(item)-1]} * {Quantity}")
+    Order_Again = input("\nWould you like anything else? (Y/N): ")
+    while Order_Again.upper() not in ["Y","N"]:
+        print("Unknown command, please try again\n")
+    else:
         if Order_Again.upper() == "Y":
-            input("What else would you like to order? (1-4): ")
-            count = count + 1
-            input("How many would you like? ")
+            print("HI)")
         else:
             print("THe other thing")
-elif item == "2":
-    count = count + 1
-    Quantity = input("How many would you like? ")
-    print(f"Espresso * {Quantity}")
-    while count < 4:
-        Order_Again = input("\nWould you like anything else? (Y/N): ")
-        if Order_Again.upper() == "Y":
-            input("What else would you like to order? (1-4): ")
-            count = count + 1
-
-elif item == "3":
-    count = count + 1
-    Quantity = input("How many would you like? ")
-    print(f"Latte * {Quantity}")
-    while count < 4:
-        Order_Again = input("\nWould you like anything else? (Y/N): ")
-        if Order_Again.upper() == "Y":
-            input("What else would you like to order? (1-4): ")
-            count = count + 1
-
-elif item == "4":
-    count = count + 1
-    Quantity = input("How many would you like? ")
-    print(f"Iced Coffee * {Quantity}")
-    while count < 4:
-        Order_Again = input("\nWould you like anything else? (Y/N): ")
-        if Order_Again.upper() == "Y":
-            input("What else would you like to order? (1-4): ")
-            count = count + 1
-
-
-
-#Drinks_List.append(menu)
-#print(Drinks_List)
