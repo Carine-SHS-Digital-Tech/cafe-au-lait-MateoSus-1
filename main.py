@@ -43,7 +43,7 @@ if item == "1":
             count = count + 1
             input("How many would you like? ")
         else:
-
+            print("THe other thing")
 elif item == "2":
     count = count + 1
     Quantity = input("How many would you like? ")
