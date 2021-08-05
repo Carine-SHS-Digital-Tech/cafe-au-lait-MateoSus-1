@@ -27,22 +27,30 @@ else:
         print(T)
 
 
-
-count = 0
-while count < 4:
-    item = input("\nWhat would you like to order from our menu today? (1-4):"
+item = input("\nWhat would you like to order from our menu today? (1-4):"
              "\n•(1) Cappuccino    [$3.00]\n•(2) Espresso      [$2.25]"
              "\n•(3) Latte         [$2.50]\n•(4) Iced Coffee   [$2.50]\n")
+count = True
+count = 0
+while item in ["1","2","3","4"]:
     print(f"You have selected a {menu[int(item)-1]}")
-    count = count + 1
     Quantity = input(f"How many {menu[int(item)-1]}'s would you like? ")
     print(f"{menu[int(item)-1]} * {Quantity}")
-   # if count < 4
-    Order_Again = input("\nWould you like anything else? (Y/N): ")
-    while Order_Again.upper() not in ["Y","N"]:
-        print("Unknown command, please try again\n")
-    else:
-        if Order_Again.upper() == "Y":
-            print("HI)")
+    if count < 4:
+        Order_Again = input("\nWould you like anything else? (Y/N): ")
+        if Order_Again.upper() not in ["Y","N"]:
+            print("Unknown command, please try again\n")
         else:
-            print("THe other thing")
+            if Order_Again.upper() == "Y":
+                item = input("\nWhat would you like to order from our menu today? (1-4):"
+                 "\n•(1) Cappuccino    [$3.00]\n•(2) Espresso      [$2.25]"
+                 "\n•(3) Latte         [$2.50]\n•(4) Iced Coffee   [$2.50]\n")
+            else:
+                print("THe other thing")
+    count = count + 1
+    if count > 4:
+        count = False
+else:
+    print("Unknown command, please try again\n")
+
+
