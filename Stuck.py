@@ -1,6 +1,19 @@
 menu = ["Cappuccino", "Espresso", "Latte", "Iced Coffee"]
 price = [3.00, 2.25, 2.50, 2.50]
 
+Operation = 0
+
+a = 0
+
+Cappuccino_Quantity = 0
+Espresso_Quantity = 0
+Latte_Quantity = 0
+IcedCoffee_Quantity = 0
+
+TakeAway_Number = 0
+DineInNumber = 0
+
+
 Drinks_List = []
 Price_List = []
 Quantity_List = []
@@ -9,71 +22,79 @@ Order_Type = []
 GST = Price_List * int(1.1)
 Surcharge = GST * int(1.05)
 
+while Operation != '3':
+    Operation = input("Mode of Operation (1-3):\n•(1) New order\n•(2)Daily Summary\n•(3)End\nOperation number: ")
+    if Operation == '1':
+        while a == 0:
+            a = input("Order Type:\n•(1) Dine-In\n•(2) Take-Away\n")
+            if a == '2':
+                TakeAway_Number = 1
+                r_take = 'Take away'
+            elif a == '1':
+                DineInNumber =  1
+                r_dine = 'Dine in'
+            else:
+                print('Error')
+
+Operation_Type = input("Mode of Operation: ")
+
 D = "Dine-In"
 d = "Dine-In"
 T = "Take-Away"
 t = "Take-Away"
 
 Order_Method = input("[D] for Dine-In\n[T] for Take-Away\nOrder Method: ")
-Order_Type.append(Order_Method)
 while Order_Method.upper() not in ["D", "T"]:
     print("Unknown command, please try again\n")
     Order_Method = input("[D] for Dine-In\n[T] for Take-Away\nOrder Method: ")
 else:
     if Order_Method.upper() == "D":
         price = Surcharge
-        print(Order_Type)
+        print("Dine-In")
     else:
         price = GST
-        print(Order_Type)
+        print("Take-Away")
 
-count = 0
-NextOrder = True
-#while count < 4:
+print("\nMenu :"
+      "\n•(1)Cappuccino    [$3.00]\n•(2)Espresso      [$2.25]"
+      "\n•(3)Latte         [$2.50]\n•(4)Iced Coffee   [$2.50]\n")
 
-while NextOrder:
-    item = input("\nWhat would you like to order from our menu today? :"
-                 "\n•(1)Cappuccino    [$3.00]\n•(2)Espresso      [$2.25]"
-                 "\n•(3)Latte         [$2.50]\n•(4)Iced Coffee   [$2.50]\n")
-    if item.upper == "1":
-        CappuccinoQuantity = input("Cappuccino quantity: ")
-        print(f"Cappuccino * {CappuccinoQuantity}")
-        Drinks_List.append(menu[0])
-        Price_List.append(menu[0])
-        count = count + 1
+Next_Order = True
+while Next_Order:
+    if Operation_Type.upper == "New Order":
+        item = input("Item number (1-4): ")
+        if item == "1":
+            Cappuccino_Quantity = input("Cappuccino quantity: ")
+            print(f"Cappuccino * {CappuccinoQuantity}")
+            Drinks_List.append(menu[0])
+            Price_List.append(menu[0])
 
-    elif item.upper() == "2":
-        EspressoQuantity = input("Espresso quantity: ")
-        print(f"Espresso * {EspressoQuantity}")
-        Drinks_List.append(menu[1])
-        Price_List.append(menu[1])
-        count = count + 1
+        elif item == "2":
+            Espresso_Quantity = input("Espresso quantity: ")
+            print(f"Espresso * {EspressoQuantity}\n")
+            Drinks_List.append(menu[1])
+            Price_List.append(menu[1])
 
-    elif item.upper() == "3":
-        LatteQuantity = input("Latte quantity: ")
-        print(f"Cappuccino * {LatteQuantity}")
-        Drinks_List.append(menu[2])
-        Price_List.append(menu[2])
-        count = count + 1
+        elif item == "3":
+            Latte_Quantity = input("Latte quantity: ")
+            print(f"Cappuccino * {LatteQuantity}")
+            Drinks_List.append(menu[2])
+            Price_List.append(menu[2])
 
-    elif item.upper() == "4":
-        IcedCoffeeQuantity = input("Iced Coffee quantity: ")
-        print(f"Iced Coffee * {IcedCoffeeQuantity}")
-        Drinks_List.append(menu[3])
-        Price_List.append(menu[3])
-        count = count + 1
+        elif item == "4":
+            IcedCoffee_Quantity = input("Iced Coffee quantity: ")
+            print(f"Iced Coffee * {IcedCoffeeQuantity}")
+            Drinks_List.append(menu[3])
+            Price_List.append(menu[3])
 
-    else:
-        print("Not on the menu, Please try again")
-        Order_Again = input("\nWould you like anything else? (Y/N): ")
-        if Order_Again == "Y":
-            NextOrder = True
         else:
-            NextOrder = False
-        print(Drinks_List)
-        print(Price_List)
+            print("Not on the menu, Please try again")
+    Order_Again = input("\nWould you like anything else? (Y/N): ")
+    if Order_Again == "N":
+        Next_Order = False
 
 print(Drinks_List)
 print(Price_List)
 
-
+print(Drinks_List)
+print(Price_List)
