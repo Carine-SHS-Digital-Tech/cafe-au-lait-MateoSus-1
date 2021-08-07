@@ -22,19 +22,20 @@ Order_Type = []
 GST = Price_List * int(1.1)
 Surcharge = GST * int(1.05)
 
-while Operation != '3':
-    Operation = input("Mode of Operation (1-3):\n•(1) New order\n•(2)Daily Summary\n•(3)End\nOperation number: ")
-    if Operation == '1':
+while Operation != "3":
+    Operation = input("\n•(1) New order\n•(2) Daily Summary\n•(3) Exit\nOperation number (1-3): ")
+    if Operation == "1":
         while a == 0:
-            a = input("Order Type:\n•(1) Dine-In\n•(2) Take-Away\n")
-            if a == '2':
+            a = input("\nOrder Type:\n•(1) Dine-In\n•(2) Take-Away\n")
+            if a == "1":
+                DineInNumber = 1
+                print("Dine-In")
+            elif a == "2":
                 TakeAway_Number = 1
-                r_take = 'Take away'
-            elif a == '1':
-                DineInNumber =  1
-                r_dine = 'Dine in'
+                print("Take-Away")
+
             else:
-                print('Error')
+                print("Unknown command, please try again.")
 
 Operation_Type = input("Mode of Operation: ")
 
@@ -65,25 +66,25 @@ while Next_Order:
         item = input("Item number (1-4): ")
         if item == "1":
             Cappuccino_Quantity = input("Cappuccino quantity: ")
-            print(f"Cappuccino * {CappuccinoQuantity}")
+            print(f"Cappuccino * {Cappuccino_Quantity}")
             Drinks_List.append(menu[0])
             Price_List.append(menu[0])
 
         elif item == "2":
             Espresso_Quantity = input("Espresso quantity: ")
-            print(f"Espresso * {EspressoQuantity}\n")
+            print(f"Espresso * {Espresso_Quantity}\n")
             Drinks_List.append(menu[1])
             Price_List.append(menu[1])
 
         elif item == "3":
             Latte_Quantity = input("Latte quantity: ")
-            print(f"Cappuccino * {LatteQuantity}")
+            print(f"Cappuccino * {Latte_Quantity}")
             Drinks_List.append(menu[2])
             Price_List.append(menu[2])
 
         elif item == "4":
             IcedCoffee_Quantity = input("Iced Coffee quantity: ")
-            print(f"Iced Coffee * {IcedCoffeeQuantity}")
+            print(f"Iced Coffee * {IcedCoffee_Quantity}")
             Drinks_List.append(menu[3])
             Price_List.append(menu[3])
 
