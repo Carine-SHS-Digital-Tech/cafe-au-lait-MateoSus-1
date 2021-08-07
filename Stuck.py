@@ -33,7 +33,6 @@ while Operation != "3":
             elif a == "2":
                 TakeAway_Number = 1
                 print("Take-Away")
-
             else:
                 print("Unknown command, please try again.")
 
