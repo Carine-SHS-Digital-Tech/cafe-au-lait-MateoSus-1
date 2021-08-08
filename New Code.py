@@ -36,8 +36,7 @@ IcedCoffee_Price = float(2.50)
 TakeAway_Number = 0
 DineIn_Number = 0
 
-GST = Price_List * int(1.1)
-Surcharge = GST * int(1.05)
+GST = float(1.1)
 
 while Operation != "3":
     Operation = input("•(1) New order\n•(2) Daily Summary\n•(3) Exit\nOperation number (1-3): ")
@@ -54,8 +53,8 @@ while Operation != "3":
                 print("Unknown command, please try again.")
                 a = 0
         while Item != "":
-            Item = input("Menu :\n•(1)Cappuccino    [$3.00]\n•(2)Espresso      [$2.25]\n•(3)Latte         [$2.50]\n•("
-                         "4)Iced Coffee   [$2.50]\n•'ENTER' to print reciept\nItem choice: ")
+            Item = input("Menu :\n•(1)Cappuccino    [$3.00]\n•(2)Espresso      [$2.25]\n•(3)Latte         [$2.50]\n•"
+                         "(4)Iced Coffee   [$2.50]\n•'ENTER' to print reciept\nItem choice: ")
             if Item == "1":
                 Cappuccino_Quantity = int(input("Cappuccino quantity: "))
                 print(f"Cappuccino * {Cappuccino_Quantity}\n")
@@ -92,20 +91,33 @@ while Operation != "3":
                 print("Unknown command, please try again.")
 
             else:
-                print("            CAFE AU LAIT             ")
+                print("\n\n            CAFE AU LAIT             ")
                 print("* * * * * * * * * * * * * * * * * * *")
                 print("               RECEIPT               ")
                 print("* * * * * * * * * * * * * * * * * * *")
                 print("DESCRIPTION                     PRICE")
                 b = 0
                 for c in range(len(Item_List)):
-                    print(f"{Item_List[b]} * {str(Quantity_List[b])}               ${str(round(Price_List[b], 2))}0")
+                    print(f"{Item_List[b]} * {str(Quantity_List[b])}              ${str(round(Price_List[b], 2))}0")
                     Total = Total + Price_List[b]
                     b = b + 1
 
-    elif Operation == "2":
-        os.system("start EXCEL.EXE daily_summary.csv")
-    elif Operation == "3":
-        break
-    else:
-        print("Unknown command, please try again.")
+                print(f"\nTotal Ex. GST                  ${str(Total)}0")
+                Grand_Total = print(f"Total Inc. GST                 ${str(round(GST*Total, 2))}0")
+
+                print("* * * * * * * * * * * * * * * * * * *\n")
+                Payment_Method = input("(1)Cash/(2)Card")
+                if Payment_Method == "1":
+                    Tendered = input("Amount Tendered: ")
+
+                Info = []
+                with open('daily_summary.csv', 'a', newline='', encoding='utf-8') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(Info)
+
+        elif Operation == "2":
+            os.system("start EXCEL.EXE daily_summary.csv")
+        elif Operation == "3":
+            break
+        else:
+            print("Unknown command, please try again.")
