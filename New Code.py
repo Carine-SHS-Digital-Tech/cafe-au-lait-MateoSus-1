@@ -1,20 +1,13 @@
 import csv
 import os
 
-header = ["Order_ID", "Type", "Item_1", "QTY_1", "EXGST_1", "ITEM_2", "QTY_2", "EXGST_2", "ITEM_3", "QTY_3",
-          "EXGST_3", "ITEM_4", "QTY_4", "EXGST_4", "ORDER_CUPS", "ORDER_GST", "ORDER_TAX", "ORDER_TOTAL"]
-
-with open('daily_summary.csv', 'w', newline='', encoding='utf-8') as f:
-    writer = csv.writer(f)
-    writer.writerow(header)
-
 Item_List = []
 Quantity_List = []
 Price_List = []
 
 Operation = " "
-a = 0
 Item = 0
+a = 0
 
 TakeAway_Option = " "
 DineIn_Option = " "
@@ -54,7 +47,7 @@ while Operation != "3":
                 a = 0
         while Item != "":
             Item = input("Menu :\n•(1)Cappuccino    [$3.00]\n•(2)Espresso      [$2.25]\n•(3)Latte         [$2.50]\n•"
-                         "(4)Iced Coffee   [$2.50]\n•'ENTER' to print reciept\nItem choice: ")
+                         "(4)Iced Coffee   [$2.50]\n'ENTER' to print reciept\nItem choice: ")
             if Item == "1":
                 Cappuccino_Quantity = int(input("Cappuccino quantity: "))
                 print(f"Cappuccino * {Cappuccino_Quantity}\n")
@@ -104,20 +97,32 @@ while Operation != "3":
 
                 print(f"\nTotal Ex. GST                  ${str(Total)}0")
                 Grand_Total = print(f"Total Inc. GST                 ${str(round(GST*Total, 2))}0")
-
                 print("* * * * * * * * * * * * * * * * * * *\n")
-                Payment_Method = input("(1)Cash/(2)Card")
+                print(f"Amount Due: ${str(round(GST*Total, 2))}")
+                Payment_Method = input("(1)Cash/(2)Card: ")
                 if Payment_Method == "1":
-                    Tendered = input("Amount Tendered: ")
-
+                    Tendered = int(input("Amount Tendered: "))
+                    Remaining = int(Grand_Total - Tendered)
+                    if Remaining < Grand_Total:
+                        print(Remaining)
+                        input(Tendered = int(input("Amount Tendered: ")))
                 Info = []
                 with open('daily_summary.csv', 'a', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
                     writer.writerow(Info)
 
-        elif Operation == "2":
-            os.system("start EXCEL.EXE daily_summary.csv")
-        elif Operation == "3":
-            break
-        else:
-            print("Unknown command, please try again.")
+    elif Operation == "2":
+        os.system("start EXCEL.EXE daily_summary.csv")
+    elif Operation == "3":
+        break
+    else:
+        print("Unknown command, please try again.")
+
+header = ["Order_ID", "Type", "Item_1", "QTY_1", "EXGST_1", "ITEM_2", "QTY_2", "EXGST_2", "ITEM_3", "QTY_3",
+          "EXGST_3", "ITEM_4", "QTY_4", "EXGST_4", "ORDER_CUPS", "ORDER_GST", "ORDER_TAX", "ORDER_TOTAL"]
+
+items = [f"Order_ID", {Operation}, "Cappuccino", {Cappuccino_Quantity}, ""]
+
+with open('daily_summary.csv', 'w', newline='', encoding='utf-8') as f:
+    writer = csv.writer(f)
+    writer.writerow(header)
