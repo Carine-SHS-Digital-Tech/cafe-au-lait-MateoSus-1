@@ -38,7 +38,6 @@ Daily_Income = Grand_Total
 Total_GST = Daily_Income*0.1
 Total_Orders = TakeAway_Number + DineIn_Number
 
-
 while Operation != "3":
     Operation = input("\n•(1) New order\n•(2) Daily Summary\n•(3) Exit\nOperation number (1-3): ")
     if Operation == "1":
