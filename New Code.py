@@ -29,10 +29,12 @@ IcedCoffee_Price = float(2.50)
 TakeAway_Number = 0
 DineIn_Number = 0
 
-GST = float(1.1)
+
+Grand_Total = float(0)
+
 
 while Operation != "3":
-    Operation = input("•(1) New order\n•(2) Daily Summary\n•(3) Exit\nOperation number (1-3): ")
+    Operation = input("\n•(1) New order\n•(2) Daily Summary\n•(3) Exit\nOperation number (1-3): ")
     if Operation == "1":
         while a == 0:
             a = input("\nOrder Type:\n•(1) Dine-In\n•(2) Take-Away\n")
@@ -94,18 +96,32 @@ while Operation != "3":
                     print(f"{Item_List[b]} * {str(Quantity_List[b])}              ${str(round(Price_List[b], 2))}0")
                     Total = Total + Price_List[b]
                     b = b + 1
-
+                    GST = float(1.1)
+                    Grand_Total = GST + Total
+                    TakeAway_Total = float(GST * Total * 1.1)
                 print(f"\nTotal Ex. GST                  ${str(Total)}0")
-                Grand_Total = print(f"Total Inc. GST                 ${str(round(GST*Total, 2))}0")
-                print("* * * * * * * * * * * * * * * * * * *\n")
-                print(f"Amount Due: ${str(round(GST*Total, 2))}")
-                Payment_Method = input("(1)Cash/(2)Card: ")
+                print(f"Total Inc. GST                 ${str(round(Grand_Total, 2))}0")
+                if a == "1":
+                    print("Dine-In")
+                    print("* * * * * * * * * * * * * * * * * * *\n")
+                elif a == "2":
+                    Final_Price = print(f"Take-Away Fee                  ${str(round(TakeAway_Total, 2))}")
+                    print("* * * * * * * * * * * * * * * * * * *\n")
+                    print(f"Amount Due: ${str(round(GST*Total, 2))}0")
+                Payment_Method = input("(1)Cash / (2)Card: ")
+                Tendered = 0
                 if Payment_Method == "1":
-                    Tendered = int(input("Amount Tendered: "))
-                    Remaining = int(Grand_Total - Tendered)
-                    if Remaining < Grand_Total:
-                        print(Remaining)
-                        input(Tendered = int(input("Amount Tendered: ")))
+                    while Tendered < Grand_Total:
+                        Tendered = float(input("Amount Tendered: "))
+                        if Tendered < Grand_Total:
+                            print(f"Payment remaining: ${round(Grand_Total-Tendered), 2}")
+                        elif Tendered >= TakeAway_Total or Grand_Total:
+                            Change = Tendered - (TakeAway_Total) or Grand_Total
+                            Change = round(Change, 2)
+                        else:
+                            print("Unknown command, please try again.")
+                else:
+                    print("Payment made")
                 Info = []
                 with open('daily_summary.csv', 'a', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
