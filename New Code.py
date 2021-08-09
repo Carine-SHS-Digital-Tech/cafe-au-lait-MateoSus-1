@@ -20,6 +20,8 @@ IcedCoffee_Quantity = 0
 TotalExcluding_GST = float(0)
 TotalIncluding_GST = float(0)
 Total = float(0)
+Total_Orders = float(0)
+Total_Cups = sum(Item_List)
 
 Cappuccino_Price = float(3.00)
 Espresso_Price = float(2.25)
@@ -29,8 +31,12 @@ IcedCoffee_Price = float(2.50)
 TakeAway_Number = 0
 DineIn_Number = 0
 
-
+GST = float(1.1)
+TakeAway_Fee = float(GST * Total * 0.05)
 Grand_Total = float(0)
+Daily_Income = Grand_Total
+Total_GST = Daily_Income*0.1
+Total_Orders = TakeAway_Number + DineIn_Number
 
 
 while Operation != "3":
@@ -47,7 +53,7 @@ while Operation != "3":
             else:
                 print("Unknown command, please try again.")
                 a = 0
-        while Item != "":
+        while Item != '':
             Item = input("Menu :\n•(1)Cappuccino    [$3.00]\n•(2)Espresso      [$2.25]\n•(3)Latte         [$2.50]\n•"
                          "(4)Iced Coffee   [$2.50]\n'ENTER' to print reciept\nItem choice: ")
             if Item == "1":
@@ -83,14 +89,13 @@ while Operation != "3":
                 Item_List.append("Iced Coffee  ")
                 Item = " "
             elif Item != "":
-                print("Unknown command, please try again.")
-
+                print("Unknown command, please try again.\n")
             else:
                 print("\n\n            CAFE AU LAIT             ")
                 print("* * * * * * * * * * * * * * * * * * *")
                 print("               RECEIPT               ")
                 print("* * * * * * * * * * * * * * * * * * *")
-                print("DESCRIPTION                     PRICE")
+                print("DESCRIPTION                    PRICE")
                 b = 0
                 for c in range(len(Item_List)):
                     print(f"{Item_List[b]} * {str(Quantity_List[b])}              ${str(round(Price_List[b], 2))}0")
@@ -98,47 +103,57 @@ while Operation != "3":
                     b = b + 1
                     GST = float(1.1)
                     Grand_Total = GST + Total
-                    TakeAway_Total = float(GST * Total * 1.1)
+                    TakeAway_Total = float(GST * Total * 1.05)
+                    TakeAway_Fee = float(GST * Total * 0.05)
                 print(f"\nTotal Ex. GST                  ${str(Total)}0")
                 print(f"Total Inc. GST                 ${str(round(Grand_Total, 2))}0")
                 if a == "1":
                     print("Dine-In")
                     print("* * * * * * * * * * * * * * * * * * *\n")
                 elif a == "2":
-                    Final_Price = print(f"Take-Away Fee                  ${str(round(TakeAway_Total, 2))}")
+                    print(f"Take-Away Fee                  ${str(round(TakeAway_Fee, 2))}")
+                    print(f"Take-Away Fee Total            ${str(round(TakeAway_Total, 2))}")
                     print("* * * * * * * * * * * * * * * * * * *\n")
-                    print(f"Amount Due: ${str(round(GST*Total, 2))}0")
+                    if a == 1:
+                        print(f"Amount Due: ${str(round(GST * Total, 2))}")
+                    else:
+                        print(f"Amount Due: ${str(round(GST * Total * 1.05, 2))}")
+                    Total_Orders = Total_Orders + 1
                 Payment_Method = input("(1)Cash / (2)Card: ")
                 Tendered = 0
                 if Payment_Method == "1":
                     while Tendered < Grand_Total:
-                        Tendered = float(input("Amount Tendered: "))
+                        Tendered = float(input("Amount Tendered: $"))
                         if Tendered < Grand_Total:
-                            print(f"Payment remaining: ${round(Grand_Total-Tendered), 2}")
+                            Remaining = float(Grand_Total-Tendered)
+                            print(f"Payment remaining: ${round(Remaining, 2)}0")
                         elif Tendered >= TakeAway_Total or Grand_Total:
-                            Change = Tendered - (TakeAway_Total) or Grand_Total
+                            Change = Tendered - TakeAway_Total or Grand_Total
                             Change = round(Change, 2)
+                            print(f"Change: {Change}")
                         else:
-                            print("Unknown command, please try again.")
-                else:
+                            print("Unknown command, please try again.\n")
+                elif Payment_Method == "2":
                     print("Payment made")
+                else:
+                    print("Unknown command, please try again.\n")
                 Info = []
                 with open('daily_summary.csv', 'a', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
                     writer.writerow(Info)
+                a = 0
 
     elif Operation == "2":
-        os.system("start EXCEL.EXE daily_summary.csv")
+        Item = [TakeAway_Number, DineIn_Number, Total_Orders, Total_Cups, Daily_Income, GST]
+        headings = ['Take-Away', 'Dine-In', 'Total Orders', 'Number of Cups', 'Income', 'Total GST']
+        with open('DailySummary.csv', 'w', encoding='UTF8', newline='') as Sum:
+            writer = csv.writer(Sum)
+            writer.writerow(headings)
+            writer.writerow(Item)
+        Sum.close()
+        os.system("start EXCEL.EXE DailySummary.csv")
     elif Operation == "3":
         break
     else:
-        print("Unknown command, please try again.")
+        print("Unknown command, please try again.\n")
 
-header = ["Order_ID", "Type", "Item_1", "QTY_1", "EXGST_1", "ITEM_2", "QTY_2", "EXGST_2", "ITEM_3", "QTY_3",
-          "EXGST_3", "ITEM_4", "QTY_4", "EXGST_4", "ORDER_CUPS", "ORDER_GST", "ORDER_TAX", "ORDER_TOTAL"]
-
-items = [f"Order_ID", {Operation}, "Cappuccino", {Cappuccino_Quantity}, ""]
-
-with open('daily_summary.csv', 'w', newline='', encoding='utf-8') as f:
-    writer = csv.writer(f)
-    writer.writerow(header)
