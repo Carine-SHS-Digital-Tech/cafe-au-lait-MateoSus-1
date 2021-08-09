@@ -1,56 +1,131 @@
-menu = ["Cappuccino", "Espresso", "Latte", "Iced Coffee"]
-price = [3.00, 2.25, 2.50, 2.50]
+import csv
+import os
+import locale
 
-Order_Type = []
-Drinks_List = []
-Price_List = []
+locale.setlocale(locale.LC_ALL, '')
+
+Item_List = []
 Quantity_List = []
+Price_List = []
 
-GST = Price_List*int(1.1)
-Surcharge = GST*int(1.05)
+Item = 0
+a = 0
 
-D = "Dine-In"
-d = "Dine-In"
-T = "Take-Away"
-t = "Take-Away"
+TakeAway_Option = " "
+DineIn_Option = " "
+Operation = " "
 
-Order_Method = input("[D] for Dine-In\n[T] for Take-Away\nOrder Method: ")
-while Order_Method.upper() not in ["D","T"]:
-    print("Unknown command, please try again\n")
-    Order_Method = input("[D] for Dine-In\n[T] for Take-Away\nOrder Method: ")
-else:
-    if Order_Method.upper() == "D":
-        price = Surcharge
-        print(D)
-    else:
-        price = GST
-        print(T)
+Cappuccino_Quantity = 0
+Espresso_Quantity = 0
+Latte_Quantity = 0
+IcedCoffee_Quantity = 0
+
+TotalExcluding_GST = float(0)
+TotalIncluding_GST = float(0)
+Total = float(0)
+
+Cappuccino_Price = float(3.00)
+Espresso_Price = float(2.25)
+Latte_Price = float(2.50)
+IcedCoffee_Price = float(2.50)
+
+TakeAway_Number = 0
+DineIn_Number = 0
+
+GST = float(1.1)
+
+Grand_Total = float(0)
 
 
-item = input("\nWhat would you like to order from our menu today? (1-4):"
-             "\n•(1) Cappuccino    [$3.00]\n•(2) Espresso      [$2.25]"
-             "\n•(3) Latte         [$2.50]\n•(4) Iced Coffee   [$2.50]\n")
-count = True
-count = 0
-while item in ["1","2","3","4"]:
-    print(f"You have selected a {menu[int(item)-1]}")
-    Quantity = input(f"How many {menu[int(item)-1]}'s would you like? ")
-    print(f"{menu[int(item)-1]} * {Quantity}")
-    if count < 4:
-        Order_Again = input("\nWould you like anything else? (Y/N): ")
-        if Order_Again.upper() not in ["Y","N"]:
-            print("Unknown command, please try again\n")
-        else:
-            if Order_Again.upper() == "Y":
-                item = input("\nWhat would you like to order from our menu today? (1-4):"
-                 "\n•(1) Cappuccino    [$3.00]\n•(2) Espresso      [$2.25]"
-                 "\n•(3) Latte         [$2.50]\n•(4) Iced Coffee   [$2.50]\n")
+while Operation != "3":
+    Operation = input("•(1) New order\n•(2) Daily Summary\n•(3) Exit\nOperation number (1-3): ")
+    if Operation == "1":
+        while a == 0:
+            a = input("\nOrder Type:\n•(1) Dine-In\n•(2) Take-Away\n")
+            if a == "1":
+                DineIn_Number = DineIn_Number + 1
+                DineIn_Option = " "
+            elif a == "2":
+                TakeAway_Number = TakeAway_Number + 1
+                TakeAway_Option = " "
             else:
-                print("THe other thing")
-    count = count + 1
-    if count > 4:
-        count = False
-else:
-    print("Unknown command, please try again\n")
+                print("Unknown command, please try again.\n")
+                a = 0
+        while Item != "":
+            Item = input("Menu :\n•(1)Cappuccino    [$3.00]\n•(2)Espresso      [$2.25]\n•(3)Latte         [$2.50]\n•"
+                         "(4)Iced Coffee   [$2.50]\n'ENTER' to print reciept\nItem choice: ")
+            if Item == "1":
+                Cappuccino_Quantity = int(input("Cappuccino quantity: "))
+                print(f"Cappuccino * {Cappuccino_Quantity}\n")
+                Cappuccino_Total = Cappuccino_Quantity * Cappuccino_Price
+                Quantity_List.append(Cappuccino_Quantity)
+                Price_List.append(Cappuccino_Total)
+                Item_List.append("Cappuccino   ")
+                Item = " "
+            elif Item == "2":
+                Espresso_Quantity = int(input("Espresso quantity: "))
+                print(f"Espresso * {Espresso_Quantity}\n")
+                Espresso_Total = Espresso_Quantity * Espresso_Price
+                Quantity_List.append(Espresso_Quantity)
+                Price_List.append(Espresso_Total)
+                Item_List.append("Espresso     ")
+                Item = " "
+            elif Item == "3":
+                Latte_Quantity = int(input("Latte quantity: "))
+                print(f"Latte * {Latte_Quantity}\n")
+                Latte_Total = Latte_Quantity * Latte_Price
+                Quantity_List.append(Latte_Quantity)
+                Price_List.append(Latte_Total)
+                Item_List.append("Latte        ")
+                Item = " "
+            elif Item == "4":
+                IcedCoffee_Quantity = int(input("Iced Coffee quantity: "))
+                print(f"Iced Coffee * {IcedCoffee_Quantity}\n")
+                IcedCoffee_Total = IcedCoffee_Quantity * IcedCoffee_Price
+                Quantity_List.append(IcedCoffee_Quantity)
+                Price_List.append(IcedCoffee_Total)
+                Item_List.append("Iced Coffee  ")
+                Item = " "
+            elif Item != "":
+                print("Unknown command, please try again.\n")
+            else:
+                print("\n\n            CAFE AU LAIT             ")
+                print("* * * * * * * * * * * * * * * * * * *")
+                print("               RECEIPT               ")
+                print("* * * * * * * * * * * * * * * * * * *")
+                print("DESCRIPTION                     PRICE")
+                b = 0
+                for c in range(len(Item_List)):
+                    print(f"{Item_List[b]} * {str(Quantity_List[b])}               ${str(round(Price_List[b], 2))}0")
+                    Total = Total + Price_List[b]
+                    b = b + 1
 
+                    GST = float(1.1)
+                    Grand_Total = GST + Total
+                    TakeAway_Total = float(GST * Total * 1.1)
 
+                print(f"\nTotal Ex. GST                  ${str(Total)}0")
+                #Grand_Total = round(GST*Total, 2)
+                print(f'Total Inc. GST                 ${"{:,.2f}".format(Grand_Total)}')
+                print("* * * * * * * * * * * * * * * * * * *\n")
+                print(f"Amount Due: ${str(round(GST*Total, 2))}")
+
+                Info = []
+                with open('daily_summary.csv', 'a', newline='', encoding='utf-8') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(Info)
+    elif Operation == "2":
+        os.system("start EXCEL.EXE daily_summary.csv")
+    elif Operation == "3":
+        break
+    else:
+        print("Unknown command, please try again.\n")
+
+#header = ["
+
+#items = [ Operation, Cappuccino, Cappuccino_Quantity,]
+#with open('daily_summary.csv', 'w', newline='', encoding='utf-8') as f:
+    #writer = csv.writer(f)
+    #writer.writerow(header)
+#f.close()
+#os.system("Start EXCEL.EXE Summary.csv")
